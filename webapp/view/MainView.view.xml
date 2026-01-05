@@ -51,7 +51,7 @@
                             <!-- Monthly Trend (Simulated Chart) -->
                             <Title id="titleTrend" text="Monthly Compliance Trend (2025)" titleStyle="H3" class="sapUiMediumMarginTop"/>
                             <List id="trendList" items="{/dashboard/trend}" noDataText="No trend data">
-                                <CustomListItem>
+                                <CustomListItem id="trendItemTemplate">
                                     <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMargin">
                                         <Label text="{month}" width="50px" design="Bold"/>
                                         <ProgressIndicator percentValue="{score}" displayValue="{score}%" showValue="true" state="Success" width="100%"/>
