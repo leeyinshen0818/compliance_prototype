@@ -52,9 +52,9 @@
                             <Title id="titleTrend" text="Monthly Compliance Trend (2025)" titleStyle="H3" class="sapUiMediumMarginTop"/>
                             <List id="trendList" items="{/dashboard/trend}" noDataText="No trend data">
                                 <CustomListItem id="trendItemTemplate">
-                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMargin">
-                                        <Label text="{month}" width="50px" design="Bold"/>
-                                        <ProgressIndicator percentValue="{score}" displayValue="{score}%" showValue="true" state="Success" width="100%"/>
+                                    <HBox id="trendHBox" justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMargin">
+                                        <Label id="trendMonthLabel" text="{month}" width="50px" design="Bold"/>
+                                        <ProgressIndicator id="trendScoreProgress" percentValue="{score}" displayValue="{score}%" showValue="true" state="Success" width="100%"/>
                                     </HBox>
                                 </CustomListItem>
                             </List>
@@ -62,7 +62,7 @@
                             <!-- Critical Alerts -->
                             <Title id="titleAlerts" text="Critical Alerts" titleStyle="H3" class="sapUiMediumMarginTop"/>
                             <List id="alertsList" items="{/dashboard/alerts}" noDataText="No active alerts">
-                                <StandardListItem title="{message}" description="{date}" icon="sap-icon://alert" info="{type}" infoState="{= ${type} === 'Critical' ? 'Error' : 'Warning' }" />
+                                <StandardListItem id="alertItemTemplate" title="{message}" description="{date}" icon="sap-icon://alert" info="{type}" infoState="{= ${type} === 'Critical' ? 'Error' : 'Warning' }" />
                             </List>
 
                             <Button id="btnScan" text="Run Compliance Scan" type="Emphasized" icon="sap-icon://search" press=".onRunScan" class="sapUiMediumMarginTop"/>
@@ -93,23 +93,23 @@
 
                             <Table id="historyTable" items="{/reporting/history}" width="auto" class="sapUiResponsiveMargin">
                                 <headerToolbar>
-                                    <Toolbar>
-                                        <Title text="Generation History" level="H2"/>
+                                    <Toolbar id="historyToolbar">
+                                        <Title id="historyTitle" text="Generation History" level="H2"/>
                                     </Toolbar>
                                 </headerToolbar>
                                 <columns>
-                                    <Column><Text text="Report Name" /></Column>
-                                    <Column><Text text="Period" /></Column>
-                                    <Column><Text text="Status" /></Column>
-                                    <Column><Text text="Action" /></Column>
+                                    <Column id="colHistoryType"><Text id="txtHistoryType" text="Report Name" /></Column>
+                                    <Column id="colHistoryPeriod"><Text id="txtHistoryPeriod" text="Period" /></Column>
+                                    <Column id="colHistoryStatus"><Text id="txtHistoryStatus" text="Status" /></Column>
+                                    <Column id="colHistoryAction"><Text id="txtHistoryAction" text="Action" /></Column>
                                 </columns>
                                 <items>
-                                    <ColumnListItem>
+                                    <ColumnListItem id="historyItemTemplate">
                                         <cells>
-                                            <Text text="{type}" />
-                                            <Text text="{period}" />
-                                            <ObjectStatus text="{status}" state="{state}" />
-                                            <Button icon="sap-icon://download" type="Transparent" />
+                                            <Text id="cellHistoryType" text="{type}" />
+                                            <Text id="cellHistoryPeriod" text="{period}" />
+                                            <ObjectStatus id="cellHistoryStatus" text="{status}" state="{state}" />
+                                            <Button id="btnHistoryDownload" icon="sap-icon://download" type="Transparent" />
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -124,18 +124,18 @@
                             
                             <Table id="rulesTable" items="{/rules}">
                                 <columns>
-                                    <Column><Text text="Parameter" /></Column>
-                                    <Column><Text text="Value" /></Column>
-                                    <Column><Text text="Unit" /></Column>
-                                    <Column><Text text="Action" /></Column>
+                                    <Column id="colRulesParameter"><Text id="txtRulesParameter" text="Parameter" /></Column>
+                                    <Column id="colRulesValue"><Text id="txtRulesValue" text="Value" /></Column>
+                                    <Column id="colRulesUnit"><Text id="txtRulesUnit" text="Unit" /></Column>
+                                    <Column id="colRulesAction"><Text id="txtRulesAction" text="Action" /></Column>
                                 </columns>
                                 <items>
-                                    <ColumnListItem>
+                                    <ColumnListItem id="rulesItemTemplate">
                                         <cells>
-                                            <Text text="{parameter}" />
-                                            <Text text="{value}" />
-                                            <Text text="{unit}" />
-                                            <Button icon="sap-icon://edit" press=".onEditRule" />
+                                            <Text id="cellRuleParameter" text="{parameter}" />
+                                            <Text id="cellRuleValue" text="{value}" />
+                                            <Text id="cellRuleUnit" text="{unit}" />
+                                            <Button id="btnEditRule" icon="sap-icon://edit" press=".onEditRule" />
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -150,21 +150,21 @@
                             
                             <Table id="auditTable" items="{/auditLogs}">
                                 <headerToolbar>
-                                    <Toolbar>
-                                        <SearchField placeholder="Filter by User ID..." search=".onFilterLogs" width="50%"/>
+                                    <Toolbar id="auditToolbar">
+                                        <SearchField id="auditSearch" placeholder="Filter by User ID..." search=".onFilterLogs" width="50%"/>
                                     </Toolbar>
                                 </headerToolbar>
                                 <columns>
-                                    <Column><Text text="Date &amp; Time" /></Column>
-                                    <Column><Text text="User" /></Column>
-                                    <Column><Text text="Action" /></Column>
+                                    <Column id="colAuditDate"><Text id="txtAuditDate" text="Date &amp; Time" /></Column>
+                                    <Column id="colAuditUser"><Text id="txtAuditUser" text="User" /></Column>
+                                    <Column id="colAuditAction"><Text id="txtAuditAction" text="Action" /></Column>
                                 </columns>
                                 <items>
-                                    <ColumnListItem>
+                                    <ColumnListItem id="auditItemTemplate">
                                         <cells>
-                                            <Text text="{date}" />
-                                            <Text text="{user}" />
-                                            <Text text="{action}" />
+                                            <Text id="cellAuditDate" text="{date}" />
+                                            <Text id="cellAuditUser" text="{user}" />
+                                            <Text id="cellAuditAction" text="{action}" />
                                         </cells>
                                     </ColumnListItem>
                                 </items>
