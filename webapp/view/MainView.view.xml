@@ -9,80 +9,171 @@
     <Page id="compliancePage" title="HR Compliance &amp; Reporting Hub" titleAlignment="Center">
         
         <headerContent>
-            <Button id="btnAlerts" icon="sap-icon://bell" type="Transparent" text="3 Alerts" press=".onPressAlerts"/>
+            <Button id="btnAlerts" icon="sap-icon://bell" type="Transparent" text="{= ${/dashboard/kpi/activeViolations} + ' Alerts' }" press=".onPressAlerts"/>
             <Avatar id="userAvatar" displaySize="XS" />
         </headerContent>
 
         <content>
-            <VBox id="mainLayout" class="sapUiSmallMargin">
-                
-                <!-- SECTION 1: DASHBOARD TILES -->
-                <Title id="titleOverview" text="Executive Overview" titleStyle="H2" class="sapUiSmallMarginBottom"/>
-                <HBox id="tileLayout" wrap="Wrap" justifyContent="SpaceBetween">
-                    <GenericTile id="tileScore" class="sapUiTinyMarginBegin sapUiTinyMarginTop" header="Compliance Score" subheader="Monthly Trend" press=".onPressTile">
-                        <TileContent id="contentScore" footer="Oct 2025">
-                            <NumericContent id="numScore" value="98.5" icon="sap-icon://line-chart" valueColor="Good" indicator="Up" />
-                        </TileContent>
-                    </GenericTile>
-
-                    <GenericTile id="tileViolations" class="sapUiTinyMarginBegin sapUiTinyMarginTop" header="Active Violations" subheader="Action Required" press=".onPressTile" frameType="OneByOne">
-                        <TileContent id="contentViolations" footer="Critical">
-                            <NumericContent id="numViolations" value="3" icon="sap-icon://alert" valueColor="Error" />
-                        </TileContent>
-                    </GenericTile>
-
-                    <GenericTile id="tileReports" class="sapUiTinyMarginBegin sapUiTinyMarginTop" header="Reports Generated" subheader="Govt Submission" press=".onPressTile">
-                        <TileContent id="contentReports" footer="This Month">
-                            <NumericContent id="numReports" value="12" icon="sap-icon://pdf-attachment" valueColor="Neutral"/>
-                        </TileContent>
-                    </GenericTile>
-                </HBox>
-
-                <!-- SECTION 2: REPORT GENERATOR -->
-                <Title id="titleReporting" text="Statutory Reporting" titleStyle="H2" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
-                
-                <Panel id="panelReport" headerText="Generate New Report" expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
-                    <content>
-                        <VBox id="formLayout">
-                            <Label id="lblType" text="Select Form Type:" />
-                            <Select id="reportTypeSelect" width="100%">
-                                <items>
-                                    <core:Item id="itemEPF" key="EPF" text="EPF (KWSP) Borang A" />
-                                    <core:Item id="itemSOCSO" key="SOCSO" text="SOCSO (PERKESO) Form 8A" />
-                                    <core:Item id="itemTAX" key="TAX" text="Income Tax CP39" />
-                                </items>
-                            </Select>
+            <IconTabBar id="idIconTabBar" expanded="true" class="sapUiResponsiveContentPadding">
+                <items>
+                    <!-- TAB 1: EXECUTIVE DASHBOARD -->
+                    <IconTabFilter id="tabDashboard" icon="sap-icon://bbyd-dashboard" text="Dashboard" key="dashboard">
+                        <VBox id="dashboardLayout" class="sapUiSmallMargin">
                             
-                            <Label id="lblDate" text="Select Month:" class="sapUiSmallMarginTop"/>
-                            <DatePicker id="reportDate" displayFormat="MM-yyyy" placeholder="Select Month" width="100%"/>
+                            <!-- KPI Tiles -->
+                            <Title id="titleOverview" text="Executive Overview" titleStyle="H2" class="sapUiSmallMarginBottom"/>
+                            <HBox id="tileLayout" wrap="Wrap" justifyContent="SpaceBetween">
+                                <GenericTile id="tileScore" class="sapUiTinyMarginBegin sapUiTinyMarginTop" header="Compliance Score" subheader="Monthly Trend" press=".onPressTile">
+                                    <TileContent id="contentScore" footer="Current">
+                                        <NumericContent id="numScore" value="{/dashboard/kpi/complianceScore}" icon="sap-icon://line-chart" valueColor="Good" indicator="Up" />
+                                    </TileContent>
+                                </GenericTile>
 
-                            <Button id="btnGenerate" text="Generate Now" type="Emphasized" icon="sap-icon://process" class="sapUiSmallMarginTop" press=".onGenerateReport"/>
+                                <GenericTile id="tileViolations" class="sapUiTinyMarginBegin sapUiTinyMarginTop" header="Active Violations" subheader="Action Required" press=".onPressTile" frameType="OneByOne">
+                                    <TileContent id="contentViolations" footer="Critical">
+                                        <NumericContent id="numViolations" value="{/dashboard/kpi/activeViolations}" icon="sap-icon://alert" valueColor="Error" />
+                                    </TileContent>
+                                </GenericTile>
+
+                                <GenericTile id="tileReports" class="sapUiTinyMarginBegin sapUiTinyMarginTop" header="Reports Generated" subheader="Govt Submission" press=".onPressTile">
+                                    <TileContent id="contentReports" footer="This Month">
+                                        <NumericContent id="numReports" value="{/dashboard/kpi/reportsGenerated}" icon="sap-icon://pdf-attachment" valueColor="Neutral"/>
+                                    </TileContent>
+                                </GenericTile>
+
+                                <GenericTile id="tileAudits" class="sapUiTinyMarginBegin sapUiTinyMarginTop" header="Pending Audits" subheader="Review Needed" press=".onPressTile">
+                                    <TileContent id="contentAudits" footer="To Do">
+                                        <NumericContent id="numAudits" value="{/dashboard/kpi/pendingAudits}" icon="sap-icon://clipboard" valueColor="Critical"/>
+                                    </TileContent>
+                                </GenericTile>
+                            </HBox>
+
+                            <!-- Monthly Trend (Simulated Chart) -->
+                            <Title id="titleTrend" text="Monthly Compliance Trend (2025)" titleStyle="H3" class="sapUiMediumMarginTop"/>
+                            <List id="trendList" items="{/dashboard/trend}" noDataText="No trend data">
+                                <CustomListItem>
+                                    <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMargin">
+                                        <Label text="{month}" width="50px" design="Bold"/>
+                                        <ProgressIndicator percentValue="{score}" displayValue="{score}%" showValue="true" state="Success" width="100%"/>
+                                    </HBox>
+                                </CustomListItem>
+                            </List>
+
+                            <!-- Critical Alerts -->
+                            <Title id="titleAlerts" text="Critical Alerts" titleStyle="H3" class="sapUiMediumMarginTop"/>
+                            <List id="alertsList" items="{/dashboard/alerts}" noDataText="No active alerts">
+                                <StandardListItem title="{message}" description="{date}" icon="sap-icon://alert" info="{type}" infoState="{= ${type} === 'Critical' ? 'Error' : 'Warning' }" />
+                            </List>
+
+                            <Button id="btnScan" text="Run Compliance Scan" type="Emphasized" icon="sap-icon://search" press=".onRunScan" class="sapUiMediumMarginTop"/>
+
                         </VBox>
-                    </content>
-                </Panel>
+                    </IconTabFilter>
 
-                <!-- SECTION 3: HISTORY TABLE -->
-                <Title id="titleHistory" text="Generation History" titleStyle="H2" class="sapUiSmallMarginTop"/>
-                <Table id="historyTable" items="{/history}">
-                    <columns>
-                        <Column id="colType"><Text id="txtColType" text="Report Type" /></Column>
-                        <Column id="colPeriod"><Text id="txtColPeriod" text="Period" /></Column>
-                        <Column id="colStatus"><Text id="txtColStatus" text="Status" /></Column>
-                        <Column id="colAction" hAlign="End"><Text id="txtColAction" text="Action" /></Column>
-                    </columns>
-                    <items>
-                        <ColumnListItem id="historyItemTemplate">
-                            <cells>
-                                <ObjectIdentifier id="cellType" title="{type}" />
-                                <Text id="cellDate" text="{date}" />
-                                <ObjectStatus id="cellStatus" text="{status}" state="{state}" />
-                                <Button id="cellBtnDownload" icon="sap-icon://download" type="Transparent" />
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
+                    <!-- TAB 2: STATUTORY REPORTING -->
+                    <IconTabFilter id="tabReporting" icon="sap-icon://official-service" text="Reporting" key="reporting">
+                        <VBox id="reportingLayout" class="sapUiSmallMargin">
+                            <Title id="titleReporting" text="Statutory Reporting" titleStyle="H2" class="sapUiSmallMarginBottom"/>
+                            
+                            <Panel id="panelReport" headerText="Generate New Report" expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+                                <content>
+                                    <VBox id="formLayout">
+                                        <Label id="lblType" text="Select Form Type:" />
+                                        <Select id="reportTypeSelect" width="100%" items="{/reporting/types}">
+                                            <core:Item key="{key}" text="{text}" />
+                                        </Select>
 
-            </VBox>
+                                        <Label id="lblDate" text="Select Month:" class="sapUiSmallMarginTop"/>
+                                        <DatePicker id="reportDate" displayFormat="MMM yyyy" valueFormat="MMM yyyy" width="100%"/>
+
+                                        <Button id="btnGenerate" text="Generate Report" type="Emphasized" press=".onGenerateReport" class="sapUiSmallMarginTop"/>
+                                    </VBox>
+                                </content>
+                            </Panel>
+
+                            <Table id="historyTable" items="{/reporting/history}" width="auto" class="sapUiResponsiveMargin">
+                                <headerToolbar>
+                                    <Toolbar>
+                                        <Title text="Generation History" level="H2"/>
+                                    </Toolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column><Text text="Report Name" /></Column>
+                                    <Column><Text text="Period" /></Column>
+                                    <Column><Text text="Status" /></Column>
+                                    <Column><Text text="Action" /></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{type}" />
+                                            <Text text="{period}" />
+                                            <ObjectStatus text="{status}" state="{state}" />
+                                            <Button icon="sap-icon://download" type="Transparent" />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
+                    </IconTabFilter>
+
+                    <!-- TAB 3: COMPLIANCE RULES -->
+                    <IconTabFilter id="tabRules" icon="sap-icon://action-settings" text="Rules Config" key="rules">
+                        <VBox id="rulesLayout" class="sapUiSmallMargin">
+                            <Title id="titleRules" text="Compliance Rules Configuration" titleStyle="H2" class="sapUiSmallMarginBottom"/>
+                            
+                            <Table id="rulesTable" items="{/rules}">
+                                <columns>
+                                    <Column><Text text="Parameter" /></Column>
+                                    <Column><Text text="Value" /></Column>
+                                    <Column><Text text="Unit" /></Column>
+                                    <Column><Text text="Action" /></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{parameter}" />
+                                            <Text text="{value}" />
+                                            <Text text="{unit}" />
+                                            <Button icon="sap-icon://edit" press=".onEditRule" />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
+                    </IconTabFilter>
+
+                    <!-- TAB 4: AUDIT LOGS -->
+                    <IconTabFilter id="tabAudit" icon="sap-icon://history" text="Audit Logs" key="audit">
+                        <VBox id="auditLayout" class="sapUiSmallMargin">
+                            <Title id="titleAudit" text="System Audit Logs" titleStyle="H2" class="sapUiSmallMarginBottom"/>
+                            
+                            <Table id="auditTable" items="{/auditLogs}">
+                                <headerToolbar>
+                                    <Toolbar>
+                                        <SearchField placeholder="Filter by User ID..." search=".onFilterLogs" width="50%"/>
+                                    </Toolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column><Text text="Date &amp; Time" /></Column>
+                                    <Column><Text text="User" /></Column>
+                                    <Column><Text text="Action" /></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{date}" />
+                                            <Text text="{user}" />
+                                            <Text text="{action}" />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
+                    </IconTabFilter>
+
+                </items>
+            </IconTabBar>
         </content>
     </Page>
 </mvc:View>
