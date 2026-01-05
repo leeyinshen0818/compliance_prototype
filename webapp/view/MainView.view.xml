@@ -80,7 +80,7 @@
                                     <VBox id="formLayout">
                                         <Label id="lblType" text="Select Form Type:" />
                                         <Select id="reportTypeSelect" width="100%" items="{/reporting/types}">
-                                            <core:Item key="{key}" text="{text}" />
+                                            <core:Item id="reportTypeItemTemplate" key="{key}" text="{text}" />
                                         </Select>
 
                                         <Label id="lblDate" text="Select Month:" class="sapUiSmallMarginTop"/>
