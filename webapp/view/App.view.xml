@@ -1,0 +1,10 @@
+<mvc:View controllerName="project1.controller.App"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+    
+    <!-- The ID "app" is REQUIRED here to fix your error -->
+    <App id="app"/>
+    
+</mvc:View>
