@@ -6,7 +6,7 @@ sap.ui.define([
     function (Controller, MessageToast, JSONModel) {
         "use strict";
 
-        return Controller.extend("project1.controller.MainView", {
+        return Controller.extend("uthm.compliance.complianceprototype.controller.MainView", {
 
             onInit: function () {
                 // Initialize the ComplyHR Mock Data Model

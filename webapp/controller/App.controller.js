@@ -3,7 +3,7 @@ sap.ui.define([
 ], function (Controller) {
     "use strict";
 
-    return Controller.extend("project1.controller.App", {
+    return Controller.extend("uthm.compliance.complianceprototype.controller.App", {
         onInit: function () {
             // Root controller initialization
         }
