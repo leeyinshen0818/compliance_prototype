@@ -4,7 +4,10 @@
     xmlns:core="sap.ui.core"
     xmlns:l="sap.ui.layout"
     xmlns:f="sap.f"
-    xmlns:card="sap.f.cards">
+    xmlns:card="sap.f.cards"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
 
     <Page id="compliancePage" title="HR Compliance &amp; Reporting Hub" titleAlignment="Center">
         
@@ -50,14 +53,22 @@
 
                             <!-- Monthly Trend (Simulated Chart) -->
                             <Title id="titleTrend" text="Monthly Compliance Trend (2025)" titleStyle="H3" class="sapUiMediumMarginTop"/>
-                            <List id="trendList" items="{/dashboard/trend}" noDataText="No trend data">
-                                <CustomListItem id="trendItemTemplate">
-                                    <HBox id="trendHBox" justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMargin">
-                                        <Label id="trendMonthLabel" text="{month}" width="50px" design="Bold"/>
-                                        <ProgressIndicator id="trendScoreProgress" percentValue="{score}" displayValue="{score}%" showValue="true" state="Success" width="100%"/>
-                                    </HBox>
-                                </CustomListItem>
-                            </List>
+                            <viz:VizFrame id="trendChart" vizType="line" width="100%" height="320px" uiConfig="{applicationSet:'fiori'}">
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset data="{/dashboard/trend}">
+                                        <viz.data:dimensions>
+                                            <viz.data:DimensionDefinition name="Month" value="{month}" />
+                                        </viz.data:dimensions>
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition name="Compliance Score" value="{score}" />
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Compliance Score" />
+                                    <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Month" />
+                                </viz:feeds>
+                            </viz:VizFrame>
 
                             <!-- Critical Alerts -->
                             <Title id="titleAlerts" text="Critical Alerts" titleStyle="H3" class="sapUiMediumMarginTop"/>
@@ -109,7 +120,7 @@
                                             <Text id="cellHistoryType" text="{type}" />
                                             <Text id="cellHistoryPeriod" text="{period}" />
                                             <ObjectStatus id="cellHistoryStatus" text="{status}" state="{state}" />
-                                            <Button id="btnHistoryDownload" icon="sap-icon://download" type="Transparent" />
+                                            <Button id="btnHistoryDownload" icon="sap-icon://download" type="Transparent" press=".onDownloadHistory" />
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -151,20 +162,26 @@
                             <Table id="auditTable" items="{/auditLogs}">
                                 <headerToolbar>
                                     <Toolbar id="auditToolbar">
-                                        <SearchField id="auditSearch" placeholder="Filter by User ID..." search=".onFilterLogs" width="50%"/>
+                                        <SearchField id="auditSearch" placeholder="Filter by Actor ID..." search=".onFilterLogs" width="50%"/>
                                     </Toolbar>
                                 </headerToolbar>
                                 <columns>
                                     <Column id="colAuditDate"><Text id="txtAuditDate" text="Date &amp; Time" /></Column>
-                                    <Column id="colAuditUser"><Text id="txtAuditUser" text="User" /></Column>
-                                    <Column id="colAuditAction"><Text id="txtAuditAction" text="Action" /></Column>
+                                    <Column id="colAuditUser"><Text id="txtAuditUser" text="Actor" /></Column>
+                                    <Column id="colAuditType"><Text id="txtAuditType" text="Action Type" /></Column>
+                                    <Column id="colAuditAction"><Text id="txtAuditAction" text="Details" /></Column>
+                                    <Column id="colAuditPrev"><Text id="txtAuditPrev" text="Previous" /></Column>
+                                    <Column id="colAuditNew"><Text id="txtAuditNew" text="New" /></Column>
                                 </columns>
                                 <items>
                                     <ColumnListItem id="auditItemTemplate">
                                         <cells>
-                                            <Text id="cellAuditDate" text="{date}" />
-                                            <Text id="cellAuditUser" text="{user}" />
-                                            <Text id="cellAuditAction" text="{action}" />
+                                            <Text id="cellAuditDate" text="{timestamp}" />
+                                            <Text id="cellAuditUser" text="{actorId}" />
+                                            <Text id="cellAuditType" text="{actionType}" />
+                                            <Text id="cellAuditAction" text="{details}" />
+                                            <Text id="cellAuditPrev" text="{previousValue}" />
+                                            <Text id="cellAuditNew" text="{newValue}" />
                                         </cells>
                                     </ColumnListItem>
                                 </items>
