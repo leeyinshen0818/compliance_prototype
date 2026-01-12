@@ -1,24 +1,8 @@
-## Application Details
-
-|                                                                                                |
-| ---------------------------------------------------------------------------------------------- |
-| **Generation Date and Time**<br>Mon Jan 05 2026 13:51:57 GMT+0000 (Coordinated Universal Time) |
-| **App Generator**<br>SAP Fiori Application Generator                                           |
-| **App Generator Version**<br>1.20.0                                                            |
-| **Generation Platform**<br>SAP Business Application Studio                                     |
-| **Template Used**<br>Basic                                                                     |
-| **Service Type**<br>None                                                                       |
-| **Service URL**<br>N/A                                                                         |
-| **Module Name**<br>compliance_prototype                                                        |
-| **Application Title**<br>ComplyHR                                                              |
-| **Namespace**<br>uthm.compliance                                                               |
-| **UI5 Theme**<br>sap_horizon                                                                   |
-| **UI5 Version**<br>1.143.2                                                                     |
-| **Enable Code Assist Libraries**<br>False                                                      |
-| **Enable TypeScript**<br>False                                                                 |
-| **Add Eslint configuration**<br>False                                                          |
-
 ## compliance_prototype
+
+**Project:** ComplyHR (University HR Compliance & Reporting Subsystem)
+**Client:** Universiti Tun Hussein Onn Malaysia (UTHM)
+**Developed In:** SAP Business Application Studio / VS Code (SAPUI5 Framework)
 
 ComplyHR is a Compliance & Reporting subsystem prototype for a University Human Resource (HR) system.
 
