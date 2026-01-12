@@ -1,109 +1,123 @@
-## compliance_prototype
+# 🛡️ ComplyHR
 
-**Project:** ComplyHR (University HR Compliance & Reporting Subsystem)
-**Client:** Universiti Tun Hussein Onn Malaysia (UTHM)
-**Developed In:** SAP Business Application Studio / VS Code (SAPUI5 Framework)
+**University HR Compliance & Statutory Reporting Subsystem (Prototype)**
 
-ComplyHR is a Compliance & Reporting subsystem prototype for a University Human Resource (HR) system.
+**Client:** Universiti Tun Hussein Onn Malaysia (UTHM)  
+**Tech Stack:** SAPUI5 • SAP Business Application Studio • VS Code
 
-It is designed as a “Digital Watchdog” that helps HR teams:
+---
 
-- Monitor employee-related compliance (e.g., Malaysian Employment Act 1955 rules such as overtime limits, minimum wage).
-- Detect and highlight issues early (alerts/violations) so HR can act before audits or penalties.
-- Automate statutory reporting preparation (e.g., EPF, SOCSO, Income Tax) and keep a generation history.
-- Maintain transparency with an audit trail of sensitive actions (who did what, when).
+## 📌 About the Project
 
-This repository contains a UI prototype built with SAPUI5 and local mock data (no backend service).
+**ComplyHR** is a Compliance & Reporting subsystem prototype for a university Human Resource (HR) system.
 
-## What you will see in the prototype
+It acts as a **“Digital Watchdog”** to help HR teams:
 
-The app is organized into 4 main tabs:
+- Monitor employee compliance with Malaysian labour laws  
+  _(e.g. minimum wage, overtime limits, EPF rules)_
+- Detect issues early through alerts and violations
+- Automate statutory report preparation  
+  _(EPF, SOCSO, Income Tax)_
+- Maintain transparency using a full audit trail  
+  _(who did what, and when)_
 
-### 1) Executive Dashboard (Health Monitor)
+This repository contains a **UI-only prototype** built with **SAPUI5** using **local mock data** (no backend).
 
-The dashboard gives a quick “health status” of HR compliance.
+---
 
-- KPI tiles show high-level numbers (compliance score, active violations, reports generated, pending audits).
-- A monthly trend helps HR see whether compliance is improving or declining over time.
-- A critical alerts list highlights the most important issues.
-- A “Run Compliance Scan” action simulates checking HR/payroll data and produces updated alerts.
+## 🧭 Application Overview
 
-### 2) Statutory Reporting (Automation Engine)
+The prototype is organized into **4 main modules**:
 
-This section helps HR generate monthly statutory submissions.
+| Module                  | Purpose                             |
+| ----------------------- | ----------------------------------- |
+| **Executive Dashboard** | Shows the overall compliance health |
+| **Statutory Reporting** | Generates EPF, SOCSO & Tax reports  |
+| **Rulebook**            | Manages legal & HR compliance rules |
+| **Audit Logs**          | Tracks all sensitive system actions |
 
-- Choose a reporting month and report type (EPF/SOCSO/Tax).
-- Generate a report (prototype simulates calculations and produces a downloadable CSV).
-- A “Generation History” table keeps a record of reports created, period, and status.
+---
 
-### 3) Compliance Rules Configuration (Rulebook)
+## 🖥️ 1) Executive Dashboard
 
-This section stores adjustable legal parameters used by the compliance scan.
+**(Health Monitor)**
 
-- View current rule values (e.g., minimum wage, max overtime, EPF rates).
-- Edit rule values through a simple dialog.
-- Changes are recorded in the audit log and can immediately affect scan results.
+Provides a quick overview of HR compliance status.
 
-### 4) System Audit Logs (Security Trail)
+Features:
 
-This section provides accountability and traceability.
+- KPI tiles (compliance score, violations, reports, audits)
+- Monthly compliance trend
+- Critical alerts list
+- **Run Compliance Scan** (simulates checking payroll & HR data)
 
-- Shows a chronological list of important actions (scan executed, report generated, rule updated).
-- Supports filtering/searching by actor/user so HR can quickly find relevant records.
+---
 
-## Data source (prototype)
+## 📄 2) Statutory Reporting
 
-This prototype uses a local JSON model (mock data) to simulate:
+**(Automation Engine)**
 
-- HR inputs such as payroll, attendance/overtime, and employee profiles.
-- Subsystem-owned records such as rules, violations, report history, and audit logs.
+Used to prepare government reports.
 
-In a full implementation, these would be replaced by backend APIs / database tables.
+Features:
 
-### Starting the generated app
+- Select reporting month & type (EPF / SOCSO / Income Tax)
+- Generate reports (CSV – simulated)
+- Generation History (period, report type, status)
 
-- This app was generated using SAP Fiori tools (Basic template). To launch the application locally, run the following from the project root folder:
+---
 
+## 📚 3) Compliance Rules
+
+**(Rulebook)**
+
+Stores all legal parameters used by the system.
+
+Features:
+
+- View rules (minimum wage, overtime limit, EPF rate, etc.)
+- Edit rules via dialog
+- Changes are:
+  - Applied immediately to compliance scans
+  - Logged in the audit trail
+
+---
+
+## 🔐 4) System Audit Logs
+
+**(Security Trail)**
+
+Ensures accountability and traceability.
+
+Features:
+
+- Time-ordered list of system actions  
+  _(scan run, report generated, rule updated, etc.)_
+- Filter by user or keyword to quickly find records
+
+---
+
+## 🗃️ Data Source (Prototype)
+
+This app uses **local JSON (mock data)** to simulate:
+
+- Employee profiles
+- Payroll & overtime
+- Compliance rules
+- Violations
+- Report history
+- Audit logs
+
+In a real system, these would come from backend APIs and databases.
+
+---
+
+## 🚀 Running the App
+
+This project was generated using **SAP Fiori Tools (Basic Template)**.
+
+### Install dependencies (once)
+
+```bash
+npm install
 ```
-    npm start
-```
-
-If you want to start without FLP preview (direct index.html):
-
-```
-    npm run start-noflp
-```
-
-#### Pre-requisites:
-
-1. Active NodeJS LTS (Long Term Support) version and associated supported NPM version. (See https://nodejs.org)
-
-   - Recommendation: Node 20 LTS.
-   - Some environments (e.g., Node 22+) may cause UI5 CLI preview issues.
-
-2. Install dependencies once:
-
-```
-    npm install
-```
-
-## SAP Business Application Studio (BAS) note (GitHub sync)
-
-If you develop locally in VS Code and push to GitHub, you can keep BAS updated by pulling:
-
-```
-    git pull origin main
-```
-
-Tip: To avoid merge conflicts, it’s best to code in one environment (e.g., VS Code) and use BAS mainly for preview/deploy.
-
-## Project structure (high level)
-
-- `webapp/view/` – UI pages (XML views)
-- `webapp/controller/` – Page logic (controllers)
-- `webapp/model/` – Model helpers
-- `webapp/i18n/` – Text resources
-
-## Disclaimer
-
-This is a prototype for demonstration and academic proposal purposes. Business rules, calculations, and report formats are simplified and use mock data.
